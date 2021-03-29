@@ -30,6 +30,60 @@ class sds extends \local_o365\rest\unified {
     /** Prefix identifying SDS-specific attributes. */
     const PREFIX = 'extension_fe2174665583431c953114ff7268b7b3_Education';
 
+<<<<<<< HEAD
+=======
+    /** The general API area of the class. */
+    public $apiarea = 'sds';
+
+    /**
+     * Determine if the API client is configured.
+     *
+     * @return bool Whether the API client is configured.
+     */
+    public static function is_configured() {
+        $config = get_config('local_o365');
+        return (!empty($config->aadtenant)) ? true : false;
+    }
+
+    /**
+     * Get the API client's oauth2 resource.
+     *
+     * @return string The resource for oauth2 tokens.
+     */
+    public static function get_tokenresource() {
+        $oidcresource = get_config('auth_oidc', 'oidcresource');
+        if (!empty($oidcresource)) {
+            return $oidcresource;
+        } else {
+            return (static::use_chinese_api() === true) ? 'https://microsoftgraph.chinacloudapi.cn' : 'https://graph.microsoft.com';
+        }
+    }
+
+    /**
+     * Get the base URI that API calls should be sent to.
+     *
+     * @return string|bool The URI to send API calls to, or false if a precondition failed.
+     */
+    public function get_apiuri() {
+        $config = get_config('local_o365');
+        if (!empty($config->aadtenant)) {
+            $tenant = $config->aadtenant;
+            return static::get_tokenresource().'/'.$tenant;
+        }
+        return false;
+    }
+
+    /**
+     * Transform the full request URL.
+     *
+     * @param string $requesturi The full request URI, includes the API uri and called endpoint.
+     * @return string The transformed full request URI.
+     */
+    protected function transform_full_request_uri($requesturi) {
+        return $requesturi;
+    }
+
+>>>>>>> 6a210db3779a6da9db544139ccb4e0d12873d199
     /**
      * Get schools in SDS.
      *

@@ -409,36 +409,351 @@ $string['settings_fieldmap_field_preferredName'] = 'Preferred Name';
 $string['settings_fieldmap_field_manager'] = 'Manager';
 $string['settings_fieldmap_field_teams'] = 'Teams';
 $string['settings_fieldmap_field_groups'] = 'Groups';
+$string['settings_fieldmap_field_roles'] = 'Roles';
 $string['settings_fieldmap_update_always'] = 'On login & creation';
-$string['settings_header_connections'] = 'Connections';
-$string['settings_header_setup'] = 'Setup';
-$string['settings_header_setup_desc'] = 'Follow these steps in order from top to bottom to get the plugin set up.';
-$string['settings_header_options'] = 'Options';
-$string['settings_header_syncsettings'] = 'Sync Settings';
+
+// Settings in the "Course sync" section of the "Sync settings" tab.
+$string['settings_secthead_coursesync'] = 'Course Sync';
+$string['settings_secthead_coursesync_desc'] = 'These following settings control course synchronization between Moodle and Microsoft Teams / Microsoft 365 groups.';
+$string['settings_usergroups'] = 'Teams';
+$string['settings_usergroups_details'] = 'If enabled, this will create and maintain a Team for every course on the site (Default: Disabled). This will create any needed Teams each cron run (and add all current members). After that, Team membership will be maintained as users are enrolled or unenrolled from Moodle courses.';
+$string['acp_usergroupcustom_off'] = 'Disabled<br />Disable Teams creation for all Moodle courses.';
+$string['acp_usergroupcustom_oncustom'] = 'Customize<br />Allows you to select which courses to create Course Groups (i.e. Teams) for, as well as select which Group features are exposed in the Microsoft block for each course.<br> <span id="adminsetting_usergroups" style="font-weight: bold"><a href="{$a}">Customize groups</a></span>';
+$string['acp_usergroupcustom_onall'] = 'All Features Enabled<br />Enables Course Groups (i.e. Teams) for all courses and exposes all Group features in the Microsoft block for all courses.';
+$string['settings_usergroups_controlled_per_course'] = 'Allow configure course sync in course';
+$string['settings_usergroups_controlled_per_course_details'] = 'If the "Teams" sync setting is set to "Customize", and this option is enabled, Moodle users who are eligible to act as Team owners will be able to control course sync from the Microsoft block in the course.';
+$string['settings_usergroups_courses_per_task'] = 'Courses to sync per task run';
+$string['settings_usergroups_courses_per_task_details'] = 'The number of courses whose Team/group sync status are to be processed at each task run.';
+
+// Settings in the "Teams customization" page in the "Course sync" section of the "Sync settings" tab.
+$string['acp_usergroupcustom'] = 'Teams Customization';
+$string['acp_usergroupcustom_enabled'] = 'Group only';
+$string['acp_usrgroupcustom_enable_all'] = 'Enable course sync on all courses';
+$string['acp_usergroupcustom_bulk'] = 'Bulk Operations';
+$string['acp_usergroupcustom_bulk_help'] = 'The feature toggles only work on courses on the current page.';
+$string['acp_usergroupcustom_bulk_enable'] = 'Enable All';
+$string['acp_usergroupcustom_bulk_disable'] = 'Disable All';
+$string['acp_usergroupcustom_new_course'] = 'Enabled by default for new course';
+$string['acp_usergroupcustom_new_course_desc'] = 'If enabled, all newly created courses will have sync enabled by default';
+$string['acp_usergroupcustom_savemessage'] = 'Your changes have been saved.';
+$string['acp_usergroupcustom_searchwarning'] = 'Note: Searches will lose any unsaved progress. Press save changes to ensure your changes are saved.';
+$string['groups_team'] = 'Teams';
+$string['groups_onedrive'] = 'Files';
+$string['groups_calendar'] = 'Calendar';
+$string['groups_conversations'] = 'Conversations';
+$string['groups_notebook'] = 'Class Notebook';
+
+// Settings in the "Teams name" section of the "Sync settings" tab.
+$string['settings_secthead_team_name'] = 'Teams name';
+$string['settings_secthead_team_name_desc'] = 'If a course is configured to create Microsoft Teams, the name of the Team will be constructed as follows.<br/>
+<ul>
+<li>Only Team display names can be defined. Associated group short names will be automatically generated.</li>
+<li>Group naming policies are not applied when creating Teams.</li>
+<li>Changes made here will only affect future Team creation, and not existing ones.</li>
+</ul>';
+$string['settings_team_name_prefix'] = 'Teams name prefix';
+$string['settings_team_name_prefix_desc'] = '';
+$string['settings_team_name_course'] = 'Course part of the Teams name';
+$string['settings_team_name_course_desc'] = '';
+$string['settings_team_name_suffix'] = 'Teams name suffix';
+$string['settings_team_name_suffix_desc'] = '';
+$string['settings_team_name_sample'] = 'Assume a course has:
+<ul>
+<li>Full name: <b>Sample course</b> 
+<li>Short name: <b>sample 15</b></li>
+<li>Moodle created ID: <b>2</b></li>
+<li>ID number: <b>Sample ID 15</b></li>
+</ul>
+Your current setting will use name "<b>{$a}</b>" to create a Team. Click "Save changes" button below to see how your settings will change this.';
+
+$string['settings_main_name_option_full_name'] = 'Full name';
+$string['settings_main_name_option_short_name'] = 'Short name';
+$string['settings_main_name_option_id'] = 'Moodle created ID';
+$string['settings_main_name_option_id_number'] = 'ID number';
+$string['settings_team_name_sync'] = 'Update Teams name on course update';
+$string['settings_team_name_sync_desc'] = 'If enabled, when Moodle course is updated, the name of the Team will be updated according to the latest Teams name settings.';
+
+// Settings in the "Group name" section of the "Sync settings" tab.
+$string['settings_secthead_group_name'] = 'Group name';
+$string['settings_secthead_group_name_desc'] = 'If a course is configured to create Outlook group instead of Microsoft Teams, the display name and short name of the group will be constructed as follows.<br/>
+<ul>
+<li>Both display name (displayName) and mail alias (mailNickname) of the group can be defined, and they can be different.</li>
+<li>Group naming policy applies to mail alias settings; attempting to create a group with mail alias not matching the group naming policy as defined in your organisation will fail.</li>
+<li>Mail alias of the group needs to be unique, otherwise group creation will fail.</li>
+<li>Changes made here will only affect future groups creation, and not existing ones.</li>
+<li>All spaces will be removed from the group mail alias.</li>
+<li>Only upper and lower case letters, numbers, - and _ are allowed in the group mail alias.</li>
+<li>Group mail alias, including prefix and suffix cannot exceed 64 characters.</li>
+</ul>';
+$string['settings_group_display_name_prefix'] = 'Group display name prefix';
+$string['settings_group_display_name_prefix_desc'] = '';
+$string['settings_group_display_name_course'] = 'Course part of the group display name';
+$string['settings_group_display_name_course_desc'] = '';
+$string['settings_group_display_name_suffix'] = 'Group display name suffix';
+$string['settings_group_display_name_suffix_desc'] = '';
+$string['settings_group_short_name_prefix'] = 'Group mail alias prefix';
+$string['settings_group_short_name_prefix_desc'] = '';
+$string['settings_group_mail_alias_course'] = 'Course part of the group mail alias';
+$string['settings_group_mail_alias_course_desc'] = '';
+$string['settings_group_mail_alias_suffix'] = 'Group mail alias suffix';
+$string['settings_group_mail_alias_suffix_desc'] = '';
+$string['settings_group_names_sample'] = 'Assume a course has:
+<ul>
+<li>Full name: <b>Sample course 15</b> 
+<li>Short name: <b>sample 15</b></li>
+<li>Moodle created ID: <b>2</b></li>
+<li>ID number: <b>Sample ID 15</b></li>
+</ul>
+Your current setting will use display name "<b>{$a->displayname}</b>" and mail alias "<b>{$a->mailalias}</b>" to create a group. Click "Save changes" button below to see how your settings will change this.';
+$string['settings_group_name_sync'] = 'Update group name on course update';
+$string['settings_group_name_sync_desc'] = 'If enabled, when Moodle course is updated, the name of the group will be updated according to the latest group name settings. Note group email alias will not be updated.';
+
+// Settings section headings of the "Advanced" tab.
 $string['settings_header_tools'] = 'Tools';
-$string['settings_header_advanced'] = 'Advanced';
-$string['settings_header_sds'] = 'School Data Sync (preview)';
-$string['settings_header_moodle_app'] = 'Teams Moodle app';
-$string['settings_healthcheck'] = 'Health Check';
-$string['settings_healthcheck_details'] = 'If something isn\'t working correctly, performing a health check can usually identify the problem and propose solutions';
-$string['settings_healthcheck_linktext'] = 'Perform health check';
-$string['settings_maintenance'] = 'Maintenance';
-$string['settings_maintenance_details'] = 'Various maintenance tasks are available to resolve some common issues.';
-$string['settings_maintenance_linktext'] = 'View maintenance tools';
-$string['settings_odburl'] = 'OneDrive for Business URL';
-$string['settings_odburl_details'] = 'The URL used to access OneDrive for Business. This can usually be determined by your Azure AD tenant. For example, if your Azure AD tenant is "contoso.onmicrosoft.com", this is most likely "contoso-my.sharepoint.com". Enter only the domain name, do not include http:// or https://';
-$string['settings_odburl_error'] = 'We could not determine your OneDrive for Business URL.<br />Please make sure "Office 365 SharePoint Online" has been added to your registered application in Azure AD.';
-$string['settings_odburl_error_graph'] = 'We could not determine your OneDrive for Business URL, please enter manually. This can usually be determined by using the URL you use to access OneDrive.';
 $string['settings_secthead_advanced'] = 'Advanced Settings';
 $string['settings_secthead_advanced_desc'] = 'These settings control other features of the plugin suite. Be careful! These may cause unintended effects.';
 $string['settings_secthead_legacy'] = 'Legacy';
 $string['settings_secthead_legacy_desc'] = 'These settings and features are deprecated and likely to be removed soon.';
 $string['settings_secthead_preview'] = 'Preview Features';
 $string['settings_secthead_preview_desc'] = '';
-$string['settings_secthead_coursesync'] = 'Teams Sync';
-$string['settings_secthead_coursesync_desc'] = 'These following settings control course synchronization between Microsoft Teams and Moodle.';
-$string['settings_options_usersync'] = 'User Sync';
-$string['settings_options_usersync_desc'] = 'The following settings control user synchronization between Office 365 and Moodle.';
+
+// Settings in the "Tools" section of the "Advanced" tab.
+$string['settings_tools_tenants'] = 'Tenants';
+$string['settings_tools_tenants_linktext'] = 'Configure additional tenants';
+$string['settings_tools_tenants_details'] = 'Manage access to additional Microsoft 365 tenants.';
+$string['settings_healthcheck'] = 'Health Check';
+$string['settings_healthcheck_details'] = 'If something isn\'t working correctly, performing a health check can usually identify the problem and propose solutions';
+$string['settings_healthcheck_linktext'] = 'Perform health check';
+$string['settings_userconnections'] = 'User connections';
+$string['settings_userconnections_linktext'] = 'Manage User Connections';
+$string['settings_userconnections_details'] = 'Review and manage connections between Moodle and Microsoft 365 users.';
+$string['settings_teamconnections'] = 'Team connections';
+$string['settings_teamconnections_linktext'] = 'Manage Team Connections';
+$string['settings_teamconnections_details'] = 'Review and manage connections between Moodle course and Microsoft Teams.';
+$string['settings_usermatch'] = 'User Matching';
+$string['settings_usermatch_details'] = 'This tool allows you to match Moodle users with Microsoft 365 users based on a custom uploaded data file.';
+$string['settings_usersynccreationrestriction'] = 'User Creation Restriction';
+$string['settings_usersynccreationrestriction_details'] = 'If enabled, only users that have the specified value for the specified Azure AD field will be created during user sync.';
+$string['settings_usersynccreationrestriction_fieldval'] = 'Field value';
+$string['settings_usersynccreationrestriction_o365group'] = 'Microsoft 365 Group Membership';
+$string['settings_usersynccreationrestriction_regex'] = 'Value is a regular expression';
+$string['settings_maintenance'] = 'Maintenance';
+$string['settings_maintenance_details'] = 'Various maintenance tasks are available to resolve some common issues.';
+$string['settings_maintenance_linktext'] = 'View maintenance tools';
+
+// Settings in "Configure additional tenants" feature of the "Advanced" tab.
+$string['acp_tenants_title'] = 'Multitenancy';
+$string['acp_tenants_title_desc'] = 'This page helps you set up multitenant access to Moodle from Microsoft 365.';
+$string['acp_tenants_add'] = 'Add New Tenant';
+$string['acp_tenants_errornotsetup'] = 'Please complete the plugin setup process before adding additional tenants.';
+$string['acp_tenants_hosttenant'] = 'Host Tenant: {$a}';
+$string['acp_tenants_intro'] = '<b>How Multitenancy Works:</b><br />Multitenancy allows multiple Microsoft 365 tenants to access your Moodle site. <br /><br />
+    Here\'s how to get set up:
+    <ol>
+        <li>Log in to Moodle as a administrator user that is not using the OpenID Connect authentication plugin.</li>
+        <li>Disable the OpenID Connect authentication plugin in Moodle. (Use <a href="{$a}/admin/settings.php?section=manageauths">the authentication plugins administration page</a>.)</li>
+        <li>Navigate to Azure AD, and find the application you configured for Moodle.</li>
+        <li>Enable multitenancy in the Azure AD application and save changes.</li>
+        <li>For each tenant you want to enable, click "Add New Tenant" and log in with an administrator account from the tenant you want to enable.</li>
+        <li>Once you have added all the tenants you want, re-enable the OpenID Connect authentication plugin in Moodle.</li>
+        <li>You\'re done! To add additional tenants in the future, just click the "Add New Tenant" button and log in with an administrator account from that tenant.</li>
+    </ol>
+    <b>Important Note:</b> Azure AD multitenancy allows all Microsoft 365 tenants to access your application when enabled. Adding the tenants here allows us to restrict Moodle access to tenants you configure. <b>If you remove all the tenants from this list before disabling multitenancy in Azure AD, or enable OpenID Connect authentication in Moodle with an empty list, your Moodle site will be open to all Microsoft 365 tenants.</b>';
+$string['acp_tenants_none'] = 'You have not configured any tenants. If you have enabled multitenancy in Azure AD, you\'re Moodle site may be open to all Microsoft 365 users.';
+$string['acp_tenants_revokeaccess'] = 'Revoke Access';
+$string['acp_tenants_tenant'] = 'Tenant';
+$string['acp_tenants_actions'] = 'Actions';
+$string['acp_tenantsadd_desc'] = 'To grant access to an additional tenant, click the button below and log in to Microsoft 365 using an adminitrator account of the new tenant. You will be returned to the list of additional tenants where the new tenant will be listed. You will then be able to use Moodle with the new tenant.';
+$string['acp_tenantsadd_linktext'] = 'Proceed to Microsoft 365 login page';
+
+// Settings in the "Health check" feature of the "Advanced" tab.
+$string['acp_healthcheck'] = 'Health Check';
+$string['healthcheck_fixlink'] = 'Click here to fix it.';
+$string['healthcheck_systemapiuser_title'] = 'System API User';
+$string['healthcheck_systemtoken_result_notoken'] = 'Moodle does not have a token to communicate with Microsoft 365 as the system API user. This can usually be resolved by resetting the system API user.';
+$string['healthcheck_systemtoken_result_noclientcreds'] = 'There are not application credentials present in the OpenID Connect plugin. Without these credentials, Moodle cannot perform any communication with Microsoft 365. Click here to visit the settings page and enter your credentials.';
+$string['healthcheck_systemtoken_result_badtoken'] = 'There was a problem communicating with Microsoft 365 as the system API user. This can usually be resolved by resetting the system API user.';
+$string['healthcheck_systemtoken_result_passed'] = 'Moodle can communicate with Microsoft 365 as the system API user.';
+$string['healthcheck_ratelimit_title'] = 'API Throttling';
+$string['healthcheck_ratelimit_result_notice'] = 'Slight throttling has been enabled to handle increased Moodle site load. <br /><br />All Microsoft 365 features are functional, this just spaces out requests slightly to prevent interruption of Microsoft 365 services. Once Moodle activity decreases, everything will return to normal. <br />(Level {$a->level} / started {$a->timestart})';
+$string['healthcheck_ratelimit_result_warning'] = 'Increased throttling has been enabled to handle significant Moodle site load. <br /><br />All Microsoft 365 features are still functional, but Microsoft 365 requests may take longer to complete. Once Moodle site activity has decreased, everything will return to normal. <br />(Level {$a->level} / started {$a->timestart})';
+$string['healthcheck_ratelimit_result_disabled'] = 'Rate limiting features have been disabled.';
+$string['healthcheck_ratelimit_result_passed'] = 'Microsoft 365 API calls are executing at full speed.';
+
+// Settings in the "Manage User Connections" feature of the "Advanced" tab.
+$string['acp_userconnections'] = 'User Connections';
+$string['acp_userconnections_column_muser'] = 'Moodle User';
+$string['acp_userconnections_column_o365user'] = 'Microsoft 365 User';
+$string['acp_userconnections_column_status'] = 'Connection Status';
+$string['acp_userconnections_column_actions'] = 'Actions';
+$string['acp_userconnections_column_usinglogin'] = 'Using Login';
+$string['acp_userconnections_filtering_muserfullname'] = 'Moodle user full name';
+$string['acp_userconnections_filtering_musername'] = 'Moodle username';
+$string['acp_userconnections_filtering_o365username'] = 'Microsoft 365 username';
+$string['acp_userconnections_manualmatch_title'] = 'Manual user match';
+$string['acp_userconnections_manualmatch_details'] = 'This page allows you to match a single Moodle user with a single Microsoft 365 user.';
+$string['acp_userconnections_manualmatch_musername'] = 'Moodle user';
+$string['acp_userconnections_manualmatch_uselogin'] = 'Log in with Microsoft 365';
+$string['acp_userconnections_manualmatch_o365username'] = 'Microsoft 365 username';
+$string['acp_userconnections_manualmatch_error_muserconnected'] = 'The Moodle user is already connected to an Microsoft 365 user';
+$string['acp_userconnections_manualmatch_error_muserconnected2'] = 'The Moodle user is already connected to an Microsoft 365 user (2)';
+$string['acp_userconnections_manualmatch_error_musermatched'] = 'The Moodle user is already matched to an Microsoft 365 user';
+$string['acp_userconnections_manualmatch_error_o365usermatched'] = 'The Microsoft 365 user is already matched to another Moodle user';
+$string['acp_userconnections_manualmatch_error_o365userconnected'] = 'The Microsoft 365 user is already connected to another Moodle user';
+$string['acp_userconnections_resync_notconnected'] = 'This user is not connected to Microsoft 365';
+$string['acp_userconnections_resync_nodata'] = 'Could not find stored Microsoft 365 information for this user.';
+$string['acp_userconnections_table_connected'] = 'Connected';
+$string['acp_userconnections_table_disconnect'] = 'Disconnect';
+$string['acp_userconnections_table_disconnect_confirmmsg'] = 'This will disconnect the Moodle user "{$a}" from Microsoft 365. Click the link below to proceed.';
+$string['acp_userconnections_table_match'] = 'Match';
+$string['acp_userconnections_table_matched'] = 'Matched with existing user.<br />Awaiting completion.';
+$string['acp_userconnections_table_noconnection'] = 'No Connection';
+$string['acp_userconnections_table_resync'] = 'Resync';
+$string['acp_userconnections_table_synced'] = 'Synced from Azure AD.<br />Awaiting initial login.';
+$string['acp_userconnections_table_unmatch'] = 'Unmatch';
+$string['acp_userconnections_table_unmatch_confirmmsg'] = 'This will unmatch the Moodle user "{$a}" from Microsoft 365. Click the link below to proceed.';
+
+// Settings in the "Manage Team Connections" feature of the "Advanced" tab.
+$string['acp_teamconnections'] = 'Team Connections';
+$string['acp_teamconnections_actions'] = 'Actions';
+$string['acp_teamconnections_cache_last_updated'] = 'Teams cache was last updated at {$a->lastupdated}. Click <a href="{$a->updateurl}">here</a> to update cache.';
+$string['acp_teamconnections_cache_never_updated'] = 'Teams cache was never updated. Click <a href="{$a->updateurl}">here</a> to update.';
+$string['acp_teamconnections_connected_team'] = 'Connected Team';
+$string['acp_teamconnections_connection_completed'] = 'The course has been successfully connected to the Team';
+$string['acp_teamconnections_course_connected'] = 'The course has been successfully connected with the Team.';
+$string['acp_teamconnections_current_connection'] = 'CURRENT CONNECTION';
+$string['acp_teamconnections_exception_course_not_connected_to_group'] = 'The course is not connected to a Group.';
+$string['acp_teamconnections_exception_course_not_exist'] = 'The course to be connected does not exist.';
+$string['acp_teamconnections_exception_invalid_team_id'] = 'Invalid Team ID';
+$string['acp_teamconnections_exception_no_unified_token'] = 'Failed to get unified token to make API calls.';
+$string['acp_teamconnections_exception_not_configured'] = 'Microsoft 365 is not fully configured.';
+$string['acp_teamconnections_exception_team_already_connected'] = 'The Team is already connected to another course';
+$string['acp_teamconnections_exception_team_creation'] = 'Error occurred when trying to create Team. Details: {$a}';
+$string['acp_teamconnections_exception_team_does_not_exist'] = 'The Team that the course attempt to connect to does not exist.';
+$string['acp_teamconnections_exception_team_no_owner'] = 'Cannot find suitable Team owner.';
+$string['acp_teamconnections_form_connect_course'] = 'Manage Team connection for course {$a}';
+$string['acp_teamconnections_form_team'] = 'Select Team';
+$string['acp_teamconnections_group_only'] = ' (Group only)';
+$string['acp_teamconnections_invalid_connection'] = 'Invalid connection';
+$string['acp_teamconnections_not_connected'] = 'Not connected';
+$string['acp_teamconnections_sync_disabled'] = 'Course sync needs to be enabled first before managing Teams connections.';
+$string['acp_teamconnections_table_complete_connection'] = 'Connect to the Team linked to the group';
+$string['acp_teamconnections_table_connect'] = 'Connect';
+$string['acp_teamconnections_table_connect_to_different_team'] = 'Connect to a different Team';
+$string['acp_teamconnections_table_create_team'] = 'Create Team';
+$string['acp_teamconnections_table_cannot_create_team_from_group'] = 'Cannot create Team from group - no owner';
+$string['acp_teamconnections_table_update'] = 'Update';
+$string['acp_teamconnections_team_already_connected'] = 'The course is already connected to a Team.';
+$string['acp_teamconnections_team_created'] = 'Team was created successfully for the course.';
+$string['acp_teamconnections_team_exists_but_not_connected'] = 'The course is configured to be connected to a Group only, however a Team connected to the Group exists.';
+$string['acp_teamconnections_teams_cache_updated'] = 'Teams cache updated successfully.';
+$string['acp_teamconnections_title'] = 'Manage Team connections ';
+
+// Settings in the "User matching" feature of the "Advanced" tab.
+$string['acp_usermatch'] = 'User Matching';
+$string['acp_usermatch_desc'] = 'This tool allows you to match Moodle users to Microsoft 365 users. You will upload a file containing Moodle users and associated Microsoft 365 users, and a cron task will verify the data and set up the match.';
+$string['acp_usermatch_upload'] = 'Step 1: Upload New Matches';
+$string['acp_usermatch_upload_desc'] = 'Upload a data file containing Moodle and Microsoft 365 usernames to match Moodle users to Microsoft 365 users.<br /><br />This file should be a simple plain-text CSV file containing three items per line: the Moodle username, the Microsoft 365 username and 1 or 0 to change the users authenticaton method to OpenID Connect or a linked account respectively. Do not include any headers or additional data.<br />For example: <pre>moodleuser1,bob.smith@example.onmicrosoft.com,1<br />moodleuser2,john.doe@example.onmicrosoft.com,0</pre>';
+$string['acp_usermatch_upload_err_badmime'] = 'Type {$a} is not supported. Please upload a plain-text CSV.';
+$string['acp_usermatch_upload_err_data'] = 'Line #{$a} contained invalid data. Each line in the CSV file should have two items: the Moodle username and the Microsoft 365 username.';
+$string['acp_usermatch_upload_err_fileopen'] = 'Could not open file for processing. Are the permissions correct in your Moodledata directory?';
+$string['acp_usermatch_upload_err_nofile'] = 'No file was received to add to the queue.';
+$string['acp_usermatch_upload_submit'] = 'Add Data File To Match Queue';
+$string['acp_usermatch_matchqueue'] = 'Step 2: Match Queue';
+$string['acp_usermatch_matchqueue_clearall'] = 'Clear All';
+$string['acp_usermatch_matchqueue_clearerrors'] = 'Clear Errors';
+$string['acp_usermatch_matchqueue_clearqueued'] = 'Clear Queued';
+$string['acp_usermatch_matchqueue_clearsuccess'] = 'Clear Successful';
+$string['acp_usermatch_matchqueue_column_muser'] = 'Moodle Username';
+$string['acp_usermatch_matchqueue_column_o365user'] = 'Microsoft 365 Username';
+$string['acp_usermatch_matchqueue_column_openidconnect'] = 'OpenID Connect';
+$string['acp_usermatch_matchqueue_column_status'] = 'Status';
+$string['acp_usermatch_matchqueue_desc'] = 'This table shows the current status of the match operation. Every time the matching cron job runs, a batch of the following users will be processed.<br /><b>Note:</b> This page will not update dynamically, refresh this page to view the current status.';
+$string['acp_usermatch_matchqueue_empty'] = 'The match queue is currently empty. Upload a data file using the file picker above to add users to the queue.';
+$string['acp_usermatch_matchqueue_status_error'] = 'Error: {$a}';
+$string['acp_usermatch_matchqueue_status_queued'] = 'Queued';
+$string['acp_usermatch_matchqueue_status_success'] = 'Successful';
+
+// Settings in the "Maintenance Tools" feature of the "Advanced" tab.
+$string['acp_maintenance'] = 'Maintenance Tools';
+$string['acp_maintenance_desc'] = 'These tools can help you resolve some common issues.';
+$string['acp_maintenance_warning'] = 'Warning: These are advanced tools. Please use them only if you understand what you are doing.';
+$string['acp_maintenance_coursegroupusers'] = 'Resync users in groups for courses';
+$string['acp_maintenance_coursegroupusers_desc'] = 'This will resync the user membership for all Microsoft 365 groups created for all Moodle courses. This will ensure all, and only, users enrolled in the Moodle course are in the Microsoft 365 group. <br /><b>Note:</b> If you have added any additional users to a course group that are not enrolled in the associated Moodle course, they will be removed.';
+$string['acp_maintenance_coursegroupscheck'] = 'Recreate deleted Microsoft 365 groups';
+$string['acp_maintenance_coursegroupscheck_desc'] = 'This will check for any Microsoft 365 Teams that may have been manually deleted and recreate them.';
+$string['acp_maintenance_debugdata'] = 'Generate debug data package';
+$string['acp_maintenance_debugdata_desc'] = 'This will generate a package containing various pieces of information about your Moodle and Microsoft 365 environment to assist developers in solving any issues you may have. If requested by a developer, run this tool and send the resulting file download. Note: Although this package does not contain sensitive token data, we ask that you do not post this file publicly or send it to an untrusted party.';
+$string['acp_maintenance_cleanoidctokens'] = 'Cleanup OpenID Connect Tokens';
+$string['acp_maintenance_cleanoidctokens_desc'] = 'If your users are experiencing problems logging in using their Microsoft 365 account, trying cleaning up OpenID Connect tokens. This removes stray and incomplete tokens that can cause errors. WARNING: This may interrupt logins in-process, so it\'s best to do this during downtime.';
+$string['acp_maintenance_cleandeltatoken'] = 'Cleanup User Sync Delta Tokens';
+$string['acp_maintenance_cleandeltatoken_desc'] = 'If user synchronisation is not fully working after updating it user sync settings, it may be caused by an old delta sync token. Cleaning up the token will remove force a complete re-sync the next time when the user sync is run.';
+
+// Settings "Advanced settings" section of the "Advanced" tab.
+$string['settings_group_creation_fallback'] = 'Group creation fallback';
+$string['settings_group_creation_fallback_details'] = 'When enabled, if a course with Team sync option enabled doesn\'t have an enrolled user who can be treated as Team owner, a group will be created first. A Team will be created from the group at a later date after a suitable Team owner is enrolled to the Moodle course. Note that a Team created this way will be standard Team, rather than class Team.
+
+When disabled, Moodle will always try to create a class Team from a synced course. Team creation will be skipped until a suitable Team owner is enrolled in the course.
+
+A suitable Team owner is a user having "Team owner" capability (local/o365:teamowner) in the course.';
+$string['settings_course_reset_teams'] = 'Course reset Team/group actions';
+$string['settings_course_reset_teams_details'] = 'Actions to be performed on a Team or group connected to a course when the course is reset.';
+$string['settings_course_reset_teams_option_do_nothing'] = 'Do nothing<br/>The Team or group is still connected to the course. User unenrolments will result in user Team or group membership removal.';
+$string['settings_course_reset_teams_option_per_course'] = 'Allow settings per course<br/>This requires the Microsoft block to be added to the course. Users with capability to reset the course can choose what to do during course reset in the block.';
+$string['settings_course_reset_teams_option_force_archive'] = 'Disconnect the course with the Team or group and create a new one<br/>The existing Team or group connected to the course will be renamed as configured. If a Team is connected, it will be archived. A new Team or group will be created and connected to the course.';
+$string['settings_reset_team_name_prefix'] = 'Reset Team name prefix';
+$string['settings_reset_team_name_prefix_details'] = 'When resetting a course that is connected to a Team, the name of the existing connected Team will be prefixed with this.';
+$string['settings_reset_group_name_prefix'] = 'Reset group name prefix';
+$string['settings_reset_group_name_prefix_details'] = 'When resetting a course that is connected to a group, the name of the existing group will be prefixed with this.';
+$string['settings_o365china'] = 'Microsoft 365 for China';
+$string['settings_o365china_details'] = 'Check this if you are using Microsoft 365 for China.';
+$string['settings_debugmode'] = 'Record debug messages';
+$string['settings_debugmode_details'] = 'If enabled, information will be logged to the Moodle log that can help in identifying problems. <a href="{$a}">View recorded log messages.</a>';
+$string['settings_switchauthminupnsplit0'] = 'Minimum inexact username length to switch to Microsoft 365';
+$string['settings_switchauthminupnsplit0_details'] = 'If you enable the "Switch matched users to Microsoft 365 authentication" setting, this sets the minimum length for usernames without a tenant (the @example.onmicrosoft.com part) which will be switched. This helps to avoid switching accounts with generic names, like "admin", which aren\'t necessarily same in Moodle and Azure AD.';
+$string['settings_photoexpire'] = 'Profile photo refresh time';
+$string['settings_photoexpire_details'] = 'The number of hours to wait before refreshing profile photos. Longer times can increase performance.';
+$string['settings_customtheme'] = 'Custom theme (Advanced)';
+$string['settings_customtheme_desc'] = 'Recommended theme is "boost_o365teams". However, you can select different theme if you have a custom theme which is adapted to be used in the Teams tab.<br/>
+Please note that a custom theme set at either course or category level would take precedence over settings here, i.e. a course would use course or category theme in Moodle app in Teams by default. This can be fixed by updating $CFG->themeorder in config.php to be "array(\'session\', \'course\', \'category\', \'user\', \'cohort\', \'site\');".';
+
+// Settings in the "Legacy" section of the "Advanced" tab.
+$string['settings_sharepointlink'] = 'SharePoint Link';
+$string['settings_sharepointlink_error'] = 'There was a problem setting up SharePoint. <br /><br /><ul><li>If you have debug logging enabled ("Record debug messages" setting above), more information may be available in the Moodle log report. (Site Administration > Reports > Logs).</li><li>To retry setup, click "Change Site", choose a new SharePoint site, click "Save Changes" at the bottom of this page, and run the Moodle cron.</ul>';
+$string['settings_sharepointlink_connected'] = 'Moodle is connected to this SharePoint site.';
+$string['settings_sharepointlink_changelink'] = 'Change Site';
+$string['settings_sharepointlink_initializing'] = 'Moodle is setting up this SharePoint site. This will occur during the next run of the Moodle cron.';
+$string['settings_sharepointlink_enterurl'] = 'Enter a URL above.';
+$string['settings_sharepointlink_details'] = 'To connect Moodle and SharePoint, enter the full URL of a SharePoint site for Moodle to connect to. If the site doesn\'t exist, Moodle will attempt to create it.';
+$string['settings_sharepointlink_status_invalid'] = 'This is not a usable SharePoint site.';
+$string['settings_sharepointlink_status_notempty'] = 'This site is usable, but already exists. Moodle may conflict with existing content. For best results, enter a SharePoint site that doesn\'t exist and Moodle will create it.';
+$string['settings_sharepointlink_status_valid'] = 'This SharePoint site will be created by Moodle and used for Moodle content.';
+$string['settings_sharepointlink_status_checking'] = 'Checking entered SharePoint site...';
+$string['acp_sharepointcourseselect'] = 'SharePoint Course Selection';
+$string['acp_sharepointcourseselect_searchwarning'] = 'Note: Searches will lose any unsaved progress. Press save changes to ensure your changes are saved.';
+$string['acp_sharepointcourseselect_applyfilter'] = 'Apply Filter';
+$string['acp_sharepointcourseselect_bulk'] = 'Bulk Operations';
+$string['acp_sharepointcourseselect_desc'] = 'Choose which courses will have SharePoint sites created for them. By default, no sites will be created. You can then choose to select specific courses ("Custom"), or create a SharePoint site for all Moodle courses ("Sync All").';
+$string['acp_sharepointcourseselect_none'] = 'None<br />No SharePoint sites will be created.';
+$string['acp_sharepointcourseselect_onall'] = 'Sync All<br />A SharePoint site will be generated for every Moodle course on this site.';
+$string['acp_sharepointcourseselect_oncustom'] = 'Custom <a href="{$a}">Customize</a><br />Choose which Moodle courses will be associated with a SharePoint site.';
+$string['acp_sharepointcourseselect_enableshown'] = 'Return to Settings';
+$string['acp_sharepointcourseselectlabel_enabled'] = 'Enable';
+$string['acp_sharepointcourseselect_filter'] = 'Filter Courses';
+$string['acp_sharepointcourseselect_filtercategory'] = 'Filter by course category';
+$string['acp_sharepointcourseselect_filterstring'] = 'Filter by string search';
+$string['acp_sharepointcourseselect_instr'] = 'To sort by column, select the column header. Select the checkbox for all courses to be associated with a SharePoint resource. To enable all courses by default, disable this custom feature in the admin settings.';
+$string['acp_sharepointcourseselect_instr_header'] = 'Instructions';
+$string['acp_sharepointcourseselect_off_header'] = 'Not Enabled';
+$string['acp_sharepointcourseselect_off_instr'] = 'SharePoint custom course selection is not enabled. Enable it in the plugin admin settings to use this feature.';
+$string['acp_sharepointcustom_savemessage'] = 'Your changes have been saved.';
+$string['acp_sharepointcourseselect_syncopt'] = 'Sync SharePoint Subsites';
+$string['acp_sharepointcourseselect_syncopt_btn'] = 'Sync to SharePoint Subsites';
+$string['acp_sharepointcourseselect_syncopt_inst'] = 'Because this functionality was recently upgraded, the information shown here may not be accurate. Use the button below to sync this display with existing course subsites on SharePoint. This operation may take some time.';
+
+// Settings in the "Legacy" section of the "Advanced" tab.
+$string['settings_previewfeatures'] = 'Enable preview features';
+$string['settings_previewfeatures_details'] = 'Enable features provided on a "preview" basis. These features use brand new APIs, or are experimental in some way. These features may be more prone to break, but will give you a sneak peak at what\'s coming in the near future.';
 
 $string['settings_sds_intro'] = '';
 $string['settings_sds_intro_previewwarning'] = '<div class="alert"><b>This is a preview feature</b><br />Preview features may not work as intended or may break without warning. Please proceed with caution.</div>';
@@ -523,16 +838,63 @@ $string['settings_sds_fieldmap_f_pre_AnchorId'] = 'Internal unique student ident
 $string['settings_sds_fieldmap_f_pre_ObjectType'] = 'The object type ("Student")';
 $string['settings_sds_noschools'] = '<div class="alert alert-info">You do not have any schools available in School data sync.</div>';
 
-$string['settings_serviceresourceabstract_detect'] = 'Detect';
-$string['settings_serviceresourceabstract_detecting'] = 'Detecting...';
-$string['settings_serviceresourceabstract_error'] = 'An error occurred detecting setting. Please set manually.';
-$string['settings_serviceresourceabstract_noperms'] = 'We experienced a problem detecting this setting.<br />Please ensure "Windows Azure Active Directory" has been added to your registered Azure AD application, and that the "Read directory data" permission is enabled.';
-$string['settings_serviceresourceabstract_valid'] = '{$a} is usable.';
-$string['settings_serviceresourceabstract_invalid'] = 'This value doesn\'t seem to be usable.';
-$string['settings_serviceresourceabstract_nocreds'] = 'Please set application credentials first.';
-$string['settings_serviceresourceabstract_empty'] = 'Please enter a value or click "Detect" to attempt to detect correct value.';
-$string['settings_setup_step1'] = 'Step 1/3: Register Moodle with Azure AD';
-$string['settings_setup_step1_desc'] = 'Register a new AzureAD Application for your Office 365 tenant by using Windows PowerShell:
+// Settings in the "Teams Settings" tab.
+$string['settings_teams_banner_1'] = 'The Moodle app for <a href="https://aka.ms/MoodleLearnTeams" target="_blank">Microsoft Teams</a> allows you to easily access and collaborate around your Moodle courses in Teams. The Moodle app also consists of a Moodle Assistant bot, which will send Moodle notifications to students and teachers and answer questions about their courses, assignments, grades and students -- right within Teams!';
+$string['settings_teams_banner_2'] = 'To provision the Moodle Assistant Bot for your Microsoft 365 tenant, you need to deploy it to <a href="https://aka.ms/MoodleLearnAzure" target="_blank">Microsoft Azure</a>. If you don\'t have an active Azure subscription, you can <a href="https://aka.ms/MoodleTeamsAzureFree" target="_blank">get one for free</a> today!';
+$string['settings_teams_moodle_setup_heading'] = '<h4 class="local_o365_settings_teams_h4_spacer">Setup your Moodle app for Microsoft Teams</h4>';
+$string['settings_moodlesettingssetup'] = 'Configure Moodle';
+$string['settings_check_moodle_settings'] = 'Check Moodle settings';
+$string['settings_moodlesetup_checking'] = 'Checking...';
+$string['settings_notice_oidcenabled'] = 'Open ID Connect enabled successfully';
+$string['settings_notice_oidcnotenabled'] = 'Open ID Connect could not be enabled';
+$string['settings_notice_oidcalreadyenabled'] = 'Open ID Connect was already enabled';
+$string['settings_notice_webservicesframealreadyenabled'] = 'Webservices were already enabled and frame embedding is also allowed';
+$string['settings_notice_webservicesframeenabled'] = 'Webservices enabled successfully and frame embedding is also allowed now';
+$string['settings_notice_restenabled'] = 'REST Protocol enabled successfully';
+$string['settings_notice_restnotenabled'] = 'REST Protocol could not be enabled';
+$string['settings_notice_restalreadyenabled'] = 'REST Protocol was already enabled';
+$string['settings_notice_o365serviceenabled'] = 'O365 Webservices enabled successfully';
+$string['settings_notice_o365servicealreadyenabled'] = 'O365 Webservices were already enabled';
+$string['settings_notice_createtokenallowed'] = 'Permission to create a web service token granted';
+$string['settings_notice_createtokenalreadyallowed'] = 'Permission to create a web service token was already granted';
+$string['settings_notice_createtokennotallowed'] = 'There was an issue giving permission to create a web service token';
+$string['settings_notice_restusageallowed'] = 'Permission to use REST Protocol granted';
+$string['settings_notice_restusagealreadyallowed'] = 'Permission to use REST Protocol was already granted';
+$string['settings_notice_restusagenotallowed'] = 'There was an issue giving permission to use REST Protocol';
+$string['settings_moodlesettingssetup_details'] = 'This will make sure that:
+<ul class="local_o365_settings_teams_horizontal_spacer">
+<li>Open ID is enabled.</li>
+<li>Frame Embedding is enabled.</li>
+<li>Web Services is enabled.</li>
+<li>Rest Protocol is enabled.</li>
+<li>Microsoft 365 Webservices is enabled.</li>
+<li>Authenticated user has permission to create a web service token.</li>
+<li>Authenticated user has permission to use Rest Protocol.</li>
+</ul>';
+$string['settings_teams_additional_instructions'] = '<p class="local_o365_settings_teams_horizontal_spacer">
+Go to the <a href="https://aka.ms/MoodleBotRegistration" target="_blank">App registrations section of Azure Portal</a> and register a new app. Enter the application ID and client secret below:
+</p>';
+$string['settings_teams_deploy_bot_1'] = 'Once you have completed the above steps and have an active Azure subscription, click here to deploy the bot:';
+$string['settings_teams_deploy_bot_2'] = 'Need help?';
+$string['settings_bot_feature_enabled'] = 'Bot feature enabled';
+$string['settings_bot_feature_enabled_desc'] = '';
+$string['settings_bot_app_id'] = 'Application ID';
+$string['settings_bot_app_id_desc'] = '';
+$string['settings_bot_app_password'] = 'Client Secret';
+$string['settings_bot_app_password_desc'] = 'Go to \'Certificates & secrets\' section under \'Manage\' in application settings, and click \'New client secret\', and paste the one-time secret';
+$string['settings_teams_download_json_desc'] = 'After entering client id and secret above, click on the button below to download JSON file for deployment.';
+$string['settings_teams_download_json'] = 'Download JSON';
+$string['settings_bot_webhook_endpoint'] = 'Bot webhook end point';
+$string['settings_bot_webhook_endpoint_desc'] = 'Format: https://<moodlebotname\>.azurewebsites.net/api/webhook';
+$string['settings_teams_moodle_app_external_id'] = 'Microsoft app ID for the Moodle Teams app';
+$string['settings_teams_moodle_app_external_id_desc'] = 'This should be set to the default value, unless multiple Moodle Teams apps are required in your tenant to connect to different Moodle sites.';
+$string['settings_teams_moodle_app_short_name'] = 'Teams app name';
+$string['settings_teams_moodle_app_short_name_desc'] = 'This can be set as default, unless multiple Moodle Teams apps are required in your tenant to connect to different Moodle sites.';
+$string['settings_bot_sharedsecret'] = 'Shared Moodle Secret';
+$string['settings_bot_sharedsecret_desc'] = 'Please paste this secret to the \'Shared Moodle Secret\' field in the Azure Bot template';
+$string['settings_download_teams_tab_app_manifest'] = 'Download manifest file';
+$string['settings_download_teams_tab_app_manifest_reminder'] = 'Please save all your changes before downloading the manifest.';
+$string['settings_publish_manifest_instruction'] = '<a href="https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/apps/apps-upload" target="_blank">Click here</a> to learn how to publish your downloaded Moodle app manifest file to all users in Teams.';
 
 <a href="{$a}/local/o365/scripts/Moodle-AzureAD-Powershell.zip" class="btn btn-primary" target="_blank">Download PowerShell Script</a>
 
@@ -585,20 +947,61 @@ $string['settings_userconnections_details'] = 'Review and manage connections bet
 $string['spsite_group_contributors_name'] = '{$a} contributors';
 $string['spsite_group_contributors_desc'] = 'All users who have access to manage files for course {$a}';
 
-$string['task_bot'] = 'Bot message task';
-$string['task_calendarsyncin'] = 'Sync o365 events in to Moodle';
-$string['task_groupcreate'] = 'Create user groups in Office 365';
-$string['task_refreshsystemrefreshtoken'] = 'Refresh system API user refresh token';
-$string['task_sds_sync'] = 'Sync with SDS';
-$string['task_syncusers'] = 'Sync users with Azure AD.';
-$string['task_sharepointinit'] = 'Initialize SharePoint.';
-$string['task_processmatchqueue'] = 'Process Match Queue';
-$string['task_processmatchqueue_err_museralreadymatched'] = 'Moodle user is already matched to an Office 365 user.';
-$string['task_processmatchqueue_err_museralreadyo365'] = 'Moodle user is already connected to Office 365.';
-$string['task_processmatchqueue_err_nomuser'] = 'No Moodle user found with this username.';
-$string['task_processmatchqueue_err_noo365user'] = 'No Office 365 user found with this username.';
-$string['task_processmatchqueue_err_o365useralreadymatched'] = 'Office 365 user is already matched to a Moodle user.';
-$string['task_processmatchqueue_err_o365useralreadyconnected'] = 'Office 365 user is already connected to a Moodle user.';
+// Privacy API.
+$string['privacy:metadata:local_o365'] = 'Microsoft 365 Local Plugin';
+$string['privacy:metadata:local_o365_calidmap'] = 'Information about links between Microsoft 365 calendar events and Moodle calendar events.';
+$string['privacy:metadata:local_o365_calidmap:userid'] = 'The ID of the user who owns the event.';
+$string['privacy:metadata:local_o365_calidmap:origin'] = 'Where the event originated. Either Moodle or Microsoft 365.';
+$string['privacy:metadata:local_o365_calidmap:outlookeventid'] = 'The ID of the event in Outlook.';
+$string['privacy:metadata:local_o365_calidmap:eventid'] = 'The ID of the event in Moodle.';
+$string['privacy:metadata:local_o365_calsub'] = 'Information about sync subscriptions between Moodle and Outlook calendars';
+$string['privacy:metadata:local_o365_calsub:user_id'] = 'The ID of the Moodle user the subscription is for';
+$string['privacy:metadata:local_o365_calsub:caltype'] = 'The type of Moodle calendar (site,course,user)';
+$string['privacy:metadata:local_o365_calsub:caltypeid'] = 'The associated ID of the Moodle calendar';
+$string['privacy:metadata:local_o365_calsub:o365calid'] = 'The ID of the Microsoft 365 calendar';
+$string['privacy:metadata:local_o365_calsub:isprimary'] = 'Whether this is the primary calendar';
+$string['privacy:metadata:local_o365_calsub:syncbehav'] = 'The sync behaviour (i.e. Moodle to Outlook or Outlook to Moodle)';
+$string['privacy:metadata:local_o365_calsub:timecreated'] = 'The time the subscription was created.';
+$string['privacy:metadata:local_o365_connections'] = 'Information about connections between Moodle and Microsoft 365 users that have not yet been confirmed';
+$string['privacy:metadata:local_o365_connections:muserid'] = 'The ID of the Moodle user';
+$string['privacy:metadata:local_o365_connections:aadupn'] = 'The UPN of the Microsoft 365 user.';
+$string['privacy:metadata:local_o365_connections:uselogin'] = 'Whether to switch the user\'s authentication method when completed.';
+$string['privacy:metadata:local_o365_token'] = 'Information about Microsoft 365 API tokens for users';
+$string['privacy:metadata:local_o365_token:user_id'] = 'The ID of the Moodle user';
+$string['privacy:metadata:local_o365_token:scope'] = 'The token scope.';
+$string['privacy:metadata:local_o365_token:tokenresource'] = 'The token resource.';
+$string['privacy:metadata:local_o365_token:token'] = 'The token.';
+$string['privacy:metadata:local_o365_token:expiry'] = 'The token\'s expiry time.';
+$string['privacy:metadata:local_o365_token:refreshtoken'] = 'The refresh token.';
+$string['privacy:metadata:local_o365_objects'] = 'Information about the relationship between Moodle and Microsoft 365 objects';
+$string['privacy:metadata:local_o365_objects:type'] = 'The type of object (group, user, course, etc)';
+$string['privacy:metadata:local_o365_objects:subtype'] = 'The subtype of object.';
+$string['privacy:metadata:local_o365_objects:objectid'] = 'The Microsoft 365 object id';
+$string['privacy:metadata:local_o365_objects:moodleid'] = 'The ID of the object in Moodle';
+$string['privacy:metadata:local_o365_objects:o365name'] = 'The human-readable name of the object in Microsoft 365';
+$string['privacy:metadata:local_o365_objects:tenant'] = 'The tenant the object belongs to (in multi-tenancy environments)';
+$string['privacy:metadata:local_o365_objects:metadata'] = 'Any associated metadata';
+$string['privacy:metadata:local_o365_objects:timecreated'] = 'The time the record was created.';
+$string['privacy:metadata:local_o365_objects:timemodified'] = 'The time the record was modified.';
+$string['privacy:metadata:local_o365_spgroupassign'] = 'Information about group assignments';
+$string['privacy:metadata:local_o365_spgroupassign:userid'] = 'The ID of the Moodle user';
+$string['privacy:metadata:local_o365_spgroupassign:groupid'] = 'The ID of the group in Microsoft 365';
+$string['privacy:metadata:local_o365_spgroupassign:timecreated'] = 'The time the record was created';
+$string['privacy:metadata:local_o365_appassign'] = 'Information about Microsoft 365 app role assignments';
+$string['privacy:metadata:local_o365_appassign:muserid'] = 'The ID of the Moodle user';
+$string['privacy:metadata:local_o365_appassign:assigned'] = 'Whether the user has been assigned to the app';
+$string['privacy:metadata:local_o365_appassign:photoid'] = 'The ID of the user\'s photo in Microsoft 365';
+$string['privacy:metadata:local_o365_appassign:photoupdated'] = 'When the user\'s photo was last updated from Microsoft 365';
+$string['privacy:metadata:local_o365_matchqueue'] = 'Information about Moodle user to Microsoft 365 user matching';
+$string['privacy:metadata:local_o365_matchqueue:musername'] = 'The username of the Moodle user.';
+$string['privacy:metadata:local_o365_matchqueue:o365username'] = 'The username of the Microsoft 365 user.';
+$string['privacy:metadata:local_o365_matchqueue:openidconnect'] = 'Whether to switch the user to OpenID Connect authentication when the match is made';
+$string['privacy:metadata:local_o365_matchqueue:completed'] = 'Whether the record has been processed';
+$string['privacy:metadata:local_o365_matchqueue:errormessage'] = 'The error message (if any)';
+$string['privacy:metadata:local_o365_calsettings'] = 'Information about calendar sync settings';
+$string['privacy:metadata:local_o365_calsettings:user_id'] = 'The ID of the Moodle user';
+$string['privacy:metadata:local_o365_calsettings:o365calid'] = 'The ID of the calendar in Microsoft 365';
+$string['privacy:metadata:local_o365_calsettings:timecreated'] = 'The time the record was created.';
 
 $string['ucp_connectionstatus'] = 'Connection Status';
 $string['ucp_calsync_availcal'] = 'Available Moodle Calendars';
